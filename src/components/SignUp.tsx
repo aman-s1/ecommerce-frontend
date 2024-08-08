@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import './Login.css';
+
 const SignUp: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -10,7 +12,7 @@ const SignUp: React.FC = () => {
     referral: '',
   });
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -59,7 +61,7 @@ const SignUp: React.FC = () => {
           name: formData.name,
           email: formData.email,
           password: formData.password,
-          referral: formData.referral // Include referral if needed
+          referral: formData.referral
         })
       });
   

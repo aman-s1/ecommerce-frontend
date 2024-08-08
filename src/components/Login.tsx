@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import './Login.css';
+
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,8 +37,8 @@ const Login: React.FC = () => {
       const data = await response.json();
       localStorage.setItem('token', data.token);
       setError(null);
-      // Redirect to a protected route (e.g., dashboard)
-      navigate('/dashboard');
+      // Redirect to dashboard
+      navigate('/shop');
     } catch (error) {
       setError(`Login failed: ${(error as Error).message}`);
     }

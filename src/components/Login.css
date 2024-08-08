@@ -1,22 +1,10 @@
-/* General Styles */
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f0f2f5;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-/* Container */
 .container {
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   padding: 40px;
   max-width: 400px;
+  margin-top: 30px;
   width: 100%;
   margin: auto;
   transition: box-shadow 0.3s ease;
@@ -26,7 +14,6 @@ body {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Header */
 .container h2 {
   margin-bottom: 25px;
   color: #333333;
@@ -34,13 +21,11 @@ body {
   text-align: center;
 }
 
-/* Form */
 form {
   display: flex;
   flex-direction: column;
 }
 
-/* Form Inputs */
 form input {
   padding: 12px;
   font-size: 16px;
@@ -55,16 +40,15 @@ form input::placeholder {
 }
 
 form input:focus {
-  border-color: #007bff;
+  border-color: #4d1601;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Form Button */
 form button {
   padding: 14px;
   font-size: 16px;
-  background-color: #007bff;
+  background-color: #8a2b06;
   color: white;
   border: none;
   border-radius: 5px;
@@ -73,13 +57,12 @@ form button {
 }
 
 form button:hover {
-  background-color: #0056b3;
+  background-color: #4d1601;
 }
 
-/* Links */
 form a {
   text-align: center;
-  color: #007bff;
+  color: #8a2b06;
   text-decoration: none;
   margin-top: 15px;
   font-size: 14px;
@@ -87,11 +70,10 @@ form a {
 }
 
 form a:hover {
-  color: #0056b3;
+  color: #4d1601;
   text-decoration: underline;
 }
 
-/* Responsive Design */
 @media (max-width: 480px) {
   .container {
     padding: 30px;

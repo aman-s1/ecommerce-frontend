@@ -1,0 +1,35 @@
+.shop-container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.welcome-message {
+    font-size: 1.6rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.admin-message {
+    padding: 12px;
+    background-color: #e0f7fa;
+    border: 1px solid #00acc1;
+    border-radius: 4px;
+    color: #00796b;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.other-content {
+    padding: 12px;
+    background-color: #fff3e0;
+    border: 1px solid #fb8c00;
+    border-radius: 4px;
+    color: #e65100;
+    font-weight: bold;
+}
+
