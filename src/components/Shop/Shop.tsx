@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Header/Header";
+import { useNavigate } from 'react-router-dom';
+import { User, Product } from "../../types";
 import AddItemForm from "./AddItemForm";
-import './Shop.css';
 import AvailableItems from "./AvailableItems";
+import ShoppingItems from "./ShoppingItems";
 
-interface User {
-    email?: string;
-    name?: string;
-    isAdmin?: boolean;
-}
+import './Shop.css';
 
 const Shop: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
-    const [itemsList, setItemsList] = useState({});
+    const [itemsList, setItemsList] = useState<Product[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
+        // Fetch user information
         const getUserInfo = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -36,19 +35,35 @@ const Shop: React.FC = () => {
                 setUser(data);
             } catch (error) {
                 console.error(error);
+                setError('Failed to load user information');
             }
         };
 
-        const getallItems = async () => {
+        // Fetch all products
+        const getAllItems = async () => {
             try {
+                const response = await fetch('http://localhost:5000/shop/products', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+                    },
+                });
 
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+
+                const data: Product[] = await response.json();
+                console.log(data);
+                setItemsList(data);
             } catch (error) {
-
+                console.error(error);
+                setError('Failed to load products');
             }
-        }
+        };
 
+        getAllItems();
         getUserInfo();
-        getallItems();
     }, []);
 
     const handleAddItem = async (name: string, description: string, price: number, image: string) => {
@@ -80,7 +95,8 @@ const Shop: React.FC = () => {
 
             const addedItem = await response.json();
             console.log(addedItem);
-            setError(null); // Clear error on successful addition
+            setItemsList(prevItems => [...prevItems, addedItem.item]);
+            setError(null);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 setError(error.message || 'An unexpected error occurred');
@@ -89,6 +105,44 @@ const Shop: React.FC = () => {
             }
             console.error(error);
         }
+    };
+
+    // Remove item from database and frontend
+    const handleRemoveItem = async (id: string) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setError('No token found');
+                return;
+            }
+    
+            const response = await fetch(`http://localhost:5000/shop/products/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to remove item');
+            }
+
+            setItemsList(prevItems => prevItems.filter(item => item._id !== id));
+            setError(null);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                setError(error.message || 'An unexpected error occurred');
+            } else {
+                setError('An unexpected error occurred');
+            }
+            console.error(error);
+        }
+    };    
+
+    const handleAddToCart = (id: string) => {
+        console.log(`Item with id ${id} added to cart`);
+        // Logic to add item to cart
     };
 
     return (
@@ -100,11 +154,16 @@ const Shop: React.FC = () => {
                     <AddItemForm onAddItem={handleAddItem} />
                     {error && <div className="error-message">{error}</div>}
                     <div className="items-list">
-                        <AvailableItems />
+                        <AvailableItems items={itemsList} onRemoveItem={handleRemoveItem}/>
                     </div>
                 </>
             ) : (
-                <div className="other-content">Other content here</div>
+                <>
+                    <><button className="cart-button" onClick={()=>{navigate('/cart')}}>Go To Cart</button></>
+                    <div className="other-content">
+                        <ShoppingItems items={itemsList} onAddToCart={handleAddToCart} />
+                    </div>
+                </>
             )}
         </div>
     );

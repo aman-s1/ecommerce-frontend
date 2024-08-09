@@ -1,0 +1,11 @@
+.available-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.available-items .card {
+    flex: 1 1 calc(33% - 1rem);
+    box-sizing: border-box;
+}

@@ -24,6 +24,19 @@
     margin-bottom: 20px;
 }
 
+.cart-button {
+    background-color: #fb8c00;
+    border-radius: 4px;
+    color: white;
+    font-weight: bolder;
+    margin-left: 40%;
+    margin-bottom: 15px;
+    border: none;
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+}
+
 .other-content {
     padding: 12px;
     background-color: #fff3e0;

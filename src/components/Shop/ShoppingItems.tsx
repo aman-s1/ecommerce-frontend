@@ -1,21 +1,16 @@
 import React from 'react';
 import { Product } from '../../types';
 import Card from '../UI/Card';
-import './AvailableItems.css';
+import './ShoppingItems.css';
 
-interface AvailableItemsProps {
+interface ShoppingItemsProps {
     items: Product[];
-    onRemoveItem: (id: string) => void;
+    onAddToCart: (id: string) => void;
 }
 
-const AvailableItems: React.FC<AvailableItemsProps> = ({ items, onRemoveItem }) => {
-
-    const itemRemoveHandler = (id: string) => {
-        onRemoveItem(id);
-    };
-
+const ShoppingItems: React.FC<ShoppingItemsProps> = ({ items, onAddToCart }) => {
     return (
-        <div className="available-items">
+        <div className="shopping-items">
             {items.length > 0 ? (
                 items.map(item => (
                     <Card key={item._id}>
@@ -23,7 +18,7 @@ const AvailableItems: React.FC<AvailableItemsProps> = ({ items, onRemoveItem }) 
                         <p>{item.description}</p>
                         <img src={item.image} alt={item.title} />
                         <p>${item.price.toFixed(2)}</p>
-                        <button onClick={() => itemRemoveHandler(item._id)}>Remove</button> {/* Corrected */}
+                        <button onClick={() => onAddToCart(item._id)}>Add to Cart</button>
                     </Card>
                 ))
             ) : (
@@ -33,4 +28,4 @@ const AvailableItems: React.FC<AvailableItemsProps> = ({ items, onRemoveItem }) 
     );
 };
 
-export default AvailableItems;
+export default ShoppingItems;
