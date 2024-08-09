@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
-import { User, Product } from "../../types";
+import { User, Product, CartItem } from "../../types";
 import AddItemForm from "./AddItemForm";
 import AvailableItems from "./AvailableItems";
 import ShoppingItems from "./ShoppingItems";
+import CartContext from "../../store/cart-context";
 
 import './Shop.css';
 
@@ -12,6 +13,8 @@ const Shop: React.FC = () => {
     const [itemsList, setItemsList] = useState<Product[]>([]);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+
+    const cartContext = useContext(CartContext);
 
     useEffect(() => {
         // Fetch user information
@@ -32,6 +35,7 @@ const Shop: React.FC = () => {
                 }
 
                 const data: User = await response.json();
+                console.log(data);
                 setUser(data);
             } catch (error) {
                 console.error(error);
@@ -62,8 +66,34 @@ const Shop: React.FC = () => {
             }
         };
 
+        const fetchCartItems = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return;
+
+                const response = await fetch('http://localhost:5000/cart/get-items', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch cart items');
+                }
+
+                const data = await response.json();
+                console.log(data.cartItems);
+                cartContext.setItems(data.cartItems);
+            } catch (error) {
+                console.error('Error fetching cart items:', error);
+                setError('Failed to load cart items');
+            }
+        };
+
         getAllItems();
         getUserInfo();
+        fetchCartItems();
     }, []);
 
     const handleAddItem = async (name: string, description: string, price: number, image: string) => {
@@ -140,10 +170,49 @@ const Shop: React.FC = () => {
         }
     };    
 
-    const handleAddToCart = (id: string) => {
-        console.log(`Item with id ${id} added to cart`);
-        // Logic to add item to cart
-    };
+    // Add item to backend and Cart Context
+    const handleAddToCart = async (id: string) => {
+        const selectedProduct = itemsList.find(item => item._id === id);
+        if (selectedProduct) {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error('No token found');
+                    return;
+                }
+    
+                const response = await fetch('http://localhost:5000/cart/add-item', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        itemId: selectedProduct._id,
+                        quantity: 1,
+                    }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Failed to add item to cart');
+                }
+    
+                const responseData = await response.json();
+                console.log(`Item with id ${selectedProduct._id} added to cart in backend`);
+    
+                // Add item to cart context
+                cartContext.addItem({
+                    _id: selectedProduct._id,
+                    title: selectedProduct.title,
+                    price: selectedProduct.price,
+                    quantity: 1,
+                });
+                console.log(`Item with id ${selectedProduct._id} added to cart context`);
+            } catch (error) {
+                console.error('Error adding item to cart:', error);
+            }
+        }
+    };    
 
     return (
         <div className="shop-container">

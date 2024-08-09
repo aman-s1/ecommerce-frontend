@@ -1,11 +1,12 @@
 import React from 'react';
 import { CartItem } from '../types';
 
-type CartContextType = {
+export type CartContextType = {
     items: CartItem[];
     totalAmount: number;
     addItem: (item: CartItem) => void;
     removeItem: (id: string) => void;
+    setItems: (items: CartItem[]) => void;
 };
 
 const CartContext = React.createContext<CartContextType>({
@@ -13,6 +14,7 @@ const CartContext = React.createContext<CartContextType>({
     totalAmount: 0,
     addItem: () => {},
     removeItem: () => {},
+    setItems: () => {},
 });
 
 export default CartContext;
