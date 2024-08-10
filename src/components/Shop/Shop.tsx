@@ -66,7 +66,7 @@ const Shop: React.FC = () => {
         };
 
         fetchData();
-    }, [cartContext]);
+    }, []);
 
     const handleAddItem = async (name: string, description: string, price: number, image: string) => {
         try {
