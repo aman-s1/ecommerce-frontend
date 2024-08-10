@@ -17,7 +17,7 @@ const Cart: React.FC = () => {
                     return;
                 }
 
-                const response = await fetch('http://localhost:5000/cart/add-item', {
+                const response = await fetch('https://ecomm-application-backend.netlify.app/cart/add-item', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const Cart: React.FC = () => {
                     return;
                 }
 
-                const response = await fetch('http://localhost:5000/cart/delete-item', {
+                const response = await fetch('https://ecomm-application-backend.netlify.app/delete-item', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -23,7 +23,7 @@ const Shop: React.FC = () => {
                 const token = localStorage.getItem('token');
                 if (!token) return;
 
-                const response = await fetch('http://localhost:5000/shop', {
+                const response = await fetch('https://ecomm-application-backend.netlify.app/shop', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -46,7 +46,7 @@ const Shop: React.FC = () => {
         // Fetch all products
         const getAllItems = async () => {
             try {
-                const response = await fetch('http://localhost:5000/shop/products', {
+                const response = await fetch('https://ecomm-application-backend.netlify.app/shop/products', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
@@ -71,7 +71,7 @@ const Shop: React.FC = () => {
                 const token = localStorage.getItem('token');
                 if (!token) return;
 
-                const response = await fetch('http://localhost:5000/cart/get-items', {
+                const response = await fetch('https://ecomm-application-backend.netlify.app/cart/get-items', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -103,7 +103,7 @@ const Shop: React.FC = () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:5000/shop/add-product', {
+            const response = await fetch('https://ecomm-application-backend.netlify.app/shop/add-product', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ const Shop: React.FC = () => {
                 return;
             }
     
-            const response = await fetch(`http://localhost:5000/shop/products/${id}`, {
+            const response = await fetch(`https://ecomm-application-backend.netlify.app/shop/products/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -180,7 +180,7 @@ const Shop: React.FC = () => {
                     return;
                 }
     
-                const response = await fetch('http://localhost:5000/cart/add-item', {
+                const response = await fetch('https://ecomm-application-backend.netlify.app/cart/add-item', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

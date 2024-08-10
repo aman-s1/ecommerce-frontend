@@ -35,7 +35,7 @@ const Checkout: React.FC = () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:5000/cart/checkout', {
+            const response = await fetch('https://ecomm-application-backend.netlify.app/cart/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
