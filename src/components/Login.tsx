@@ -20,7 +20,7 @@ const Login: React.FC = () => {
 
     // Send data to the backend
     try {
-      const response = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/login', {
+      const response = await fetch('https://ecommerce-backend-rnh6j2c3d-aman-s1s-projects.vercel.app/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

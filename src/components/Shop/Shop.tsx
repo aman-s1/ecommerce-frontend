@@ -22,7 +22,7 @@ const Shop: React.FC = () => {
                 // Fetch user information
                 const token = localStorage.getItem('token');
                 if (token) {
-                    const userResponse = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/shop', {
+                    const userResponse = await fetch('https://ecommerce-backend-rnh6j2c3d-aman-s1s-projects.vercel.app/shop', {
                         method: 'GET',
                         headers: { 'Authorization': `Bearer ${token}` },
                     });
@@ -35,7 +35,7 @@ const Shop: React.FC = () => {
                 }
 
                 // Fetch all products
-                const productsResponse = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/shop/products', {
+                const productsResponse = await fetch('https://ecommerce-backend-rnh6j2c3d-aman-s1s-projects.vercel.app/shop/products', {
                     method: 'GET',
                     headers: { 'Authorization': `Bearer ${token || ''}` },
                 });
@@ -47,7 +47,7 @@ const Shop: React.FC = () => {
                 }
 
                 // Fetch cart items
-                const cartResponse = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/cart/get-items', {
+                const cartResponse = await fetch('https://ecommerce-backend-rnh6j2c3d-aman-s1s-projects.vercel.app/cart/get-items', {
                     method: 'GET',
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
@@ -73,7 +73,7 @@ const Shop: React.FC = () => {
             const token = localStorage.getItem('token');
             if (!token) throw new Error('No token found');
 
-            const response = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/shop/add-product', {
+            const response = await fetch('https://ecommerce-backend-rnh6j2c3d-aman-s1s-projects.vercel.app/shop/add-product', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const Shop: React.FC = () => {
             const token = localStorage.getItem('token');
             if (!token) throw new Error('No token found');
 
-            const response = await fetch(`https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/shop/products/${id}`, {
+            const response = await fetch(`https://ecommerce-backend-rnh6j2c3d-aman-s1s-projects.vercel.app/shop/products/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` },
             });
@@ -126,7 +126,7 @@ const Shop: React.FC = () => {
                 const token = localStorage.getItem('token');
                 if (!token) throw new Error('No token found');
 
-                const response = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/cart/add-item', {
+                const response = await fetch('https://ecommerce-backend-rnh6j2c3d-aman-s1s-projects.vercel.app/cart/add-item', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

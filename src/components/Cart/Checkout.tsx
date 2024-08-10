@@ -35,7 +35,7 @@ const Checkout: React.FC = () => {
                 return;
             }
 
-            const response = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/cart/checkout', {
+            const response = await fetch('https://ecommerce-backend-rnh6j2c3d-aman-s1s-projects.vercel.app//cart/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
