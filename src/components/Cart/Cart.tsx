@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CartContext from '../../store/cart-context';
 import './Cart.css';
 
 const Cart: React.FC = () => {
     const cartContext = useContext(CartContext);
+    const navigate = useNavigate();
 
     const handleIncreaseQuantity = async (id: string) => {
         const cartItem = cartContext.items.find(item => item._id === id);
@@ -28,7 +30,7 @@ const Cart: React.FC = () => {
                     throw new Error('Failed to increase item quantity');
                 }
 
-                cartContext.addItem({ ...cartItem, quantity: (cartItem.quantity || 0) + 1 }); // Ensure quantity is updated
+                cartContext.addItem({ ...cartItem, quantity: (cartItem.quantity || 0) + 1 }); // Adjust quantity increment
             } catch (error) {
                 console.error('Error increasing item quantity:', error);
             }
@@ -65,7 +67,12 @@ const Cart: React.FC = () => {
     };
 
     const handleCheckout = () => {
-        console.log('Proceeding to checkout with the following items:', cartContext.items);
+        if (cartContext.items.length === 0) {
+            alert('Your cart is empty. Please add items to your cart before proceeding to checkout.');
+            return;
+        }
+        
+        navigate('/checkout');
     };
 
     return (

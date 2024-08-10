@@ -83,7 +83,6 @@ const Shop: React.FC = () => {
                 }
 
                 const data = await response.json();
-                console.log(data.cartItems);
                 cartContext.setItems(data.cartItems);
             } catch (error) {
                 console.error('Error fetching cart items:', error);
@@ -214,8 +213,15 @@ const Shop: React.FC = () => {
         }
     };    
 
+    // Handle logout
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login'); // Redirect to the login page
+    };
+
     return (
         <div className="shop-container">
+            <button className="logout-button" onClick={handleLogout}>Logout</button>
             <h3 className="welcome-message">Welcome {user?.email},</h3>
             {user?.isAdmin ? (
                 <>

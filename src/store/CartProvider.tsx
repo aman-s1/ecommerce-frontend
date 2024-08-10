@@ -72,7 +72,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         }
 
         case SET_ITEMS: {
-            const newItems = Array.isArray(action.items) ? action.items : []; // Ensure newItems is always an array
+            const newItems = Array.isArray(action.items) ? action.items : [];
             const newTotalAmount = newItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
             return {
