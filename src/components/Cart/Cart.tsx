@@ -17,7 +17,7 @@ const Cart: React.FC = () => {
                     return;
                 }
 
-                const response = await fetch('https://ecomm-application-backend.netlify.app/cart/add-item', {
+                const response = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/cart/add-item', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const Cart: React.FC = () => {
                     return;
                 }
 
-                const response = await fetch('https://ecomm-application-backend.netlify.app/delete-item', {
+                const response = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/delete-item', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

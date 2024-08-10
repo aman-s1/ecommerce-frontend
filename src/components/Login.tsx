@@ -20,7 +20,7 @@ const Login: React.FC = () => {
 
     // Send data to the backend
     try {
-      const response = await fetch('https://ecomm-application-backend.netlify.app/login', {
+      const response = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

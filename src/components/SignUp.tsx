@@ -52,7 +52,7 @@ const SignUp: React.FC = () => {
   
     // Send data to the backend
     try {
-      const response = await fetch('https://ecomm-application-backend.netlify.app/signup', {
+      const response = await fetch('https://ecommerce-backend-9rxn7rxj9-aman-s1s-projects.vercel.app/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
