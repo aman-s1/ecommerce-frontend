@@ -10,7 +10,7 @@ import Checkout from './components/Cart/Checkout';
 function App() {
   return (
     <CartProvider>
-      <Router basename="/https://ecomm-application-frontend.netlify.app/">
+      <Router>
         <div>
           <Routes>
             <Route path="/" element={<Navigate to="/login" replace />} />
