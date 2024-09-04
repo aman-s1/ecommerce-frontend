@@ -7,6 +7,7 @@ export type CartContextType = {
     addItem: (item: CartItem) => void;
     removeItem: (id: string) => void;
     setItems: (items: CartItem[]) => void;
+    applyCoupon: (coupon: string) => void;
 };
 
 const CartContext = React.createContext<CartContextType>({
@@ -15,6 +16,7 @@ const CartContext = React.createContext<CartContextType>({
     addItem: () => {},
     removeItem: () => {},
     setItems: () => {},
+    applyCoupon: () => {}
 });
 
 export default CartContext;

@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CartContext from '../../store/cart-context';
 import './Cart.css';
 
 const Cart: React.FC = () => {
+    const [coupon, setCoupon] = useState<string>("");
+    const [isCouponValid, setIsCouponValid] = useState<boolean | null>(null); // State to track coupon validity
+
     const cartContext = useContext(CartContext);
     const navigate = useNavigate();
 
@@ -17,7 +20,7 @@ const Cart: React.FC = () => {
                     return;
                 }
 
-                const response = await fetch('https://ecommerce-backend-aman-s1s-projects.vercel.app/cart/add-item', {
+                const response = await fetch('http://localhost:5000/cart/add-item', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -30,7 +33,7 @@ const Cart: React.FC = () => {
                     throw new Error('Failed to increase item quantity');
                 }
 
-                cartContext.addItem({ ...cartItem, quantity: (cartItem.quantity || 0) + 1 }); // Adjust quantity increment
+                cartContext.addItem({ ...cartItem, quantity: (cartItem.quantity || 0) + 1 });
             } catch (error) {
                 console.error('Error increasing item quantity:', error);
             }
@@ -47,7 +50,7 @@ const Cart: React.FC = () => {
                     return;
                 }
 
-                const response = await fetch('https://ecommerce-backend-aman-s1s-projects.vercel.app/cart/delete-item', {
+                const response = await fetch('http://localhost:5000/cart/delete-item', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -59,6 +62,7 @@ const Cart: React.FC = () => {
                 if (!response.ok) {
                     throw new Error('Failed to decrease item quantity');
                 }
+
                 cartContext.removeItem(id);
             } catch (error) {
                 console.error('Error decreasing item quantity:', error);
@@ -66,12 +70,49 @@ const Cart: React.FC = () => {
         }
     };
 
+    const checkCouponCode = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('No token found');
+                return;
+            }
+    
+            const response = await fetch('http://localhost:5000/cart/check-coupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ coupon: coupon }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to check coupon code');
+            }
+    
+            const data = await response.json();
+            if (data.isValid) {
+                setIsCouponValid(true);
+                cartContext.applyCoupon(coupon); // Pass coupon to applyCoupon if needed
+                alert('Coupon applied successfully!');
+            } else {
+                setIsCouponValid(false);
+                alert('Invalid coupon code.');
+            }
+        } catch (err) {
+            console.error('Error checking coupon:', err);
+            setIsCouponValid(false);
+        }
+    };    
+
     const handleCheckout = () => {
         if (cartContext.items.length === 0) {
             alert('Your cart is empty. Please add items to your cart before proceeding to checkout.');
             return;
         }
-        
+
+        localStorage.setItem('coupon', coupon);
         navigate('/checkout');
     };
 
@@ -105,6 +146,14 @@ const Cart: React.FC = () => {
                 <h3>
                     Total Amount: ${cartContext.totalAmount ? cartContext.totalAmount.toFixed(2) : '0.00'}
                 </h3>
+                <input
+                    type='text'
+                    value={coupon}
+                    onChange={(e) => setCoupon(e.target.value)}
+                    placeholder='Enter Coupon Code'
+                />
+                <button onClick={checkCouponCode}>Apply Coupon</button>
+                {isCouponValid === false && <p className="error-message">Invalid coupon code. Please try again.</p>}
                 <button className="checkout-button" onClick={handleCheckout}>Proceed to Checkout</button>
             </div>
         </div>

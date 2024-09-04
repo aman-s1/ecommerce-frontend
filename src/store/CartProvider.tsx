@@ -5,6 +5,7 @@ import { CartItem } from '../types';
 const ADD_ITEM = 'ADD_ITEM';
 const REMOVE_ITEM = 'REMOVE_ITEM';
 const SET_ITEMS = 'SET_ITEMS';
+const APPLY_COUPON = 'APPLY_COUPON';
 
 interface CartState {
     items: CartItem[];
@@ -16,6 +17,7 @@ interface CartAction {
     item?: CartItem;
     id?: string;
     items?: CartItem[];
+    coupon?: string; // Added coupon code
 }
 
 const defaultCartState: CartState = {
@@ -81,6 +83,26 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             };
         }
 
+        case APPLY_COUPON: {
+            if (!action.coupon) return state;
+            
+            let discountPercentage = 0;
+
+            if (action.coupon === 'DIWALIDHAMAKA') {
+                discountPercentage = 20;
+            } else if (action.coupon === 'CHRISTMASCHARITY') {
+                discountPercentage = 20; 
+            }
+
+            const discountAmount = (state.totalAmount * discountPercentage) / 100;
+            const newTotalAmount = Math.max(state.totalAmount - discountAmount, 0);
+
+            return {
+                ...state,
+                totalAmount: newTotalAmount,
+            };
+        }
+
         default:
             return state;
     }
@@ -101,12 +123,17 @@ const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         dispatchCartAction({ type: SET_ITEMS, items });
     };
 
+    const applyCouponHandler = (coupon: string) => {
+        dispatchCartAction({ type: APPLY_COUPON, coupon });
+    };
+
     const cartContext: CartContextType = {
         items: cartState.items,
         totalAmount: cartState.totalAmount,
         addItem: addItemToCartHandler,
         removeItem: removeItemFromCartHandler,
         setItems: setItemsHandler,
+        applyCoupon: applyCouponHandler,
     };
 
     return (

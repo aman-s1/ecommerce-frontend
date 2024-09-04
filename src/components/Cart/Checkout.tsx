@@ -18,6 +18,8 @@ const Checkout: React.FC = () => {
             return;
         }
 
+        const enteredCoupun = localStorage.getItem('coupon');
+
         // Prepare order data
         const orderData = {
             address,
@@ -26,6 +28,7 @@ const Checkout: React.FC = () => {
                 itemId: item._id,
                 quantity: item.quantity,
             })),
+            enteredCoupun
         };
 
         try {
@@ -35,7 +38,7 @@ const Checkout: React.FC = () => {
                 return;
             }
 
-            const response = await fetch('https://ecommerce-backend-aman-s1s-projects.vercel.app/cart/checkout', {
+            const response = await fetch('http://localhost:5000/cart/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,6 +54,7 @@ const Checkout: React.FC = () => {
             cartContext.setItems([]);
 
             setSuccessMessage('Order placed successfully! Redirecting to shop...');
+            localStorage.setItem('coupon', "");
 
             setTimeout(() => {
                 navigate('/shop');
